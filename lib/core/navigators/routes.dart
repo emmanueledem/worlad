@@ -6,4 +6,5 @@ class Routes {
   static const String allcitiesPage = '/allCitiesPage';
   static const String viewNewsPage = '/viewNewsPage';
   static const String searchNewsPage = '/searchNewsPage';
+  static const String onBoardingPage = '/onBoardingPage';
 }
