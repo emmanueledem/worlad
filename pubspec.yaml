@@ -21,6 +21,7 @@ dependencies:
   rflutter_alert: ^2.0.4
   gap: ^2.0.0
   device_preview: ^1.0.0
+  analog_clock: ^0.1.0
 
 
 

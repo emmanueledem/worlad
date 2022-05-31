@@ -15,11 +15,10 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     Future.delayed(const Duration(seconds: 4), () {
-      Navigator.pushNamed(context, Routes.onBoardingPage);
+      Navigator.pushReplacementNamed(context, Routes.onBoardingPage);
     });
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Image(
-                height: 100,
-                width: 100,
-                image: AssetImage(Appasset.appIcon)),
+            Image(height: 100, width: 100, image: AssetImage(Appasset.appIcon)),
             Gap(5),
             Text(
               'WORLAD',

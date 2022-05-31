@@ -39,7 +39,7 @@ class OnboardingScreen extends StatelessWidget {
             right: 20,
             child: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, Routes.introScreen);
+                Navigator.pushReplacementNamed(context, Routes.introScreen);
               },
               child: Container(
                 width: 314,
