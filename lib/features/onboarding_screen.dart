@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:worlad/app/shared/assets.dart';
 import 'package:worlad/app/shared/colors.dart';
+import 'package:worlad/core/navigators/navigators.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -36,27 +37,32 @@ class OnboardingScreen extends StatelessWidget {
             bottom: 122,
             left: 20,
             right: 20,
-            child: Container(
-              width: 314,
-              height: 55,
-              decoration: BoxDecoration(
-                color: AppColor.appColour,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.only(top: 15),
-                child: Text(
-                  'Get Started',
-                  style: TextStyle(
-                      fontFamily: 'Inter',
-                      color: Color(0xffFFFFFF),
-                      fontSize: 18.0,
-                      fontWeight: FontWeight.w600),
-                  textAlign: TextAlign.center,
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, Routes.introScreen);
+              },
+              child: Container(
+                width: 314,
+                height: 55,
+                decoration: BoxDecoration(
+                  color: AppColor.appColour,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15),
+                  child: Text(
+                    'Get Started',
+                    style: TextStyle(
+                        fontFamily: 'Inter',
+                        color: Color(0xffFFFFFF),
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

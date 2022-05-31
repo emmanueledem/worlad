@@ -2,9 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:worlad/features/splash_screen.dart';
 import 'package:worlad/core/navigators/navigators.dart';
 
-void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+bool kReleaseMode = true;
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {

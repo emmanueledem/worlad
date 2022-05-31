@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:worlad/features/home/intro_screen.dart';
 import 'package:worlad/features/news/presentation/pages/search_news.dart';
 import 'package:worlad/features/news/presentation/pages/view_news.dart';
 import 'package:worlad/features/onboarding_screen.dart';
 import 'package:worlad/features/regions/presentation/pages/all_cities.dart';
+import 'package:worlad/features/regions/presentation/pages/all_states.dart';
 import 'package:worlad/features/weather/presentation/pages/weather_history.dart';
 import 'package:worlad/features/weather/presentation/pages/weather_result.dart';
 import 'package:worlad/features/weather/presentation/pages/weather_search.dart';
@@ -11,6 +13,13 @@ import 'navigators.dart';
 class Routers {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
+       case Routes.introScreen:
+        return _getPageRoute(
+          routeName: settings.name,
+          viewToShow: const IntroScreen(),
+        );
+
+
       case Routes.viewNewsPage:
         return _getPageRoute(
           routeName: settings.name,
@@ -31,7 +40,7 @@ class Routers {
       case Routes.allStatesPage:
         return _getPageRoute(
           routeName: settings.name,
-          viewToShow: const AllCities(),
+          viewToShow: const AllStates(),
         );
 
       case Routes.weatherSearchPage:

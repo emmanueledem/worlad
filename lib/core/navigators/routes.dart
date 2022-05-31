@@ -1,4 +1,5 @@
 class Routes {
+  static const String introScreen = '/introScreen';
   static const String weatherSearchPage = '/weatherSearchPage';
   static const String weatherResultPage = '/weatherResultPage';
   static const String weatherHistoryPage = '/weatherHistoryPage';
