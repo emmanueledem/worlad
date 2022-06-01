@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/assets.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/core/navigators/navigators.dart';
+import 'package:worlad/features/home/presentation/providers/home_provider.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
@@ -38,7 +41,11 @@ class OnboardingScreen extends StatelessWidget {
             left: 20,
             right: 20,
             child: InkWell(
-              onTap: () {
+              onTap: () async{
+                var userVisitingProvider =
+                    Provider.of<HomeProvider>(context, listen: false);
+              await userVisitingProvider.changeStatus();
+                Logger().d(userVisitingProvider.alreadyVisited);
                 Navigator.pushReplacementNamed(context, Routes.introScreen);
               },
               child: Container(

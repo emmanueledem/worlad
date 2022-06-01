@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:worlad/features/home/intro_screen.dart';
+import 'package:worlad/features/home/presentation/pages/intro_screen.dart';
 import 'package:worlad/features/news/presentation/pages/search_news.dart';
 import 'package:worlad/features/news/presentation/pages/view_news.dart';
 import 'package:worlad/features/onboarding_screen.dart';

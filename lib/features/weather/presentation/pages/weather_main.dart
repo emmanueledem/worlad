@@ -66,6 +66,7 @@ class _WeatherMainState extends State<WeatherMain> {
                     Navigator.of(context).push(CustomPageRoute(
                         direction: AxisDirection.up,
                         child: const WeatherHistory()));
+                    
                   },
                 ),
                 const Gap(100),

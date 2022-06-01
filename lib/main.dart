@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:worlad/core/errors/network_info.dart';
+import 'package:worlad/features/home/presentation/providers/home_provider.dart';
 import 'package:worlad/features/splash_screen.dart';
 import 'package:worlad/core/navigators/navigators.dart';
 
@@ -15,13 +18,23 @@ class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Denote',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => HomeProvider(),
         ),
-        onGenerateRoute: Routers.generateRoute,
-        home: const SplashScreen());
+        ChangeNotifierProvider(
+          create: (context) => NetworkInfoImpl(),
+        )
+      ],
+      child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Denote',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          onGenerateRoute: Routers.generateRoute,
+          home: const SplashScreen()),
+    );
   }
 }
