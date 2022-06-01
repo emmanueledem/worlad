@@ -3,6 +3,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
+import 'package:worlad/core/navigators/routes.dart';
 
 class WeatherSearch extends StatefulWidget {
   const WeatherSearch({Key? key}) : super(key: key);
@@ -65,7 +66,6 @@ class _WeatherSearchState extends State<WeatherSearch> {
                       butttonText: "Search a Location",
                       onpressed: () async {
                         FocusScopeNode currentFocus = FocusScope.of(context);
-
                         if (!currentFocus.hasPrimaryFocus) {
                           currentFocus.unfocus();
                         }
@@ -78,9 +78,7 @@ class _WeatherSearchState extends State<WeatherSearch> {
                         //     value = _locationNameController.text;
                         //     await weatherProvider.fetchLocation(value);
                         //     if (weatherProvider.ifCountryExist == true) {
-                        //       Navigator.of(context).push(MaterialPageRoute(
-                        //           builder: (context) =>
-                        //               const WeatherConditionScreen()));
+                        Navigator.pushNamed(context, Routes.weatherResultPage);
                         //       _locationNameController.clear();
                         //     }
                         //   } else {
