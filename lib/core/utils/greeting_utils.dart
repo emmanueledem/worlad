@@ -7,6 +7,11 @@ class TimeFmt {
     return formattedDate;
   }
 
+  static String getCurrentDate() {
+    final formatedDate = DateFormat.yMMMMd('en_US').format(DateTime.now());
+    return formatedDate;
+  }
+
   static String greeting() {
     final hour = DateTime.now().hour;
     if (hour < 12) {

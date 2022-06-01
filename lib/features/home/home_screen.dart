@@ -2,6 +2,7 @@ import 'package:analog_clock/analog_clock.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:worlad/app/shared/colors.dart';
+import 'package:worlad/core/utils/greeting_utils.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -37,17 +38,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
+                        children: [
                           Text(
-                            'Good Morning',
-                            style: TextStyle(
+                            'Good ' + TimeFmt.greeting(),
+                            style: const TextStyle(
                                 fontSize: 32,
                                 fontFamily: 'Inter',
                                 fontStyle: FontStyle.normal,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xffFFFFFF)),
                           ),
-                          Expanded(
+                          const Expanded(
                             child: Text(
                               'We\'re happy to have you!, Let\'s get you some live updates.',
                               style: TextStyle(
@@ -64,6 +65,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ],
+            ),
+            const Gap(45),
+            Text(
+              TimeFmt.getCurrentDate(),
+              style: const TextStyle(
+                fontSize: 20,
+                fontFamily: 'Inter',
+                fontWeight: FontWeight.w800,
+              ),
             ),
             const Gap(45),
             AnalogClock(
