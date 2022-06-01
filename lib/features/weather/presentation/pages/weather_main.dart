@@ -61,7 +61,7 @@ class _WeatherMainState extends State<WeatherMain> {
                 ),
                 const Gap(20),
                 AppBusyButton(
-                  butttonText: 'Wheather History',
+                  butttonText: 'Weather History',
                   onpressed: () {
                     Navigator.of(context).push(CustomPageRoute(
                         direction: AxisDirection.up,
