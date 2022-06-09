@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
 import 'package:worlad/app/widgets/flush_bar.dart';
+
+import '../../../../core/errors/network_info.dart';
 
 class WeatherSearch extends StatefulWidget {
   const WeatherSearch({Key? key}) : super(key: key);
@@ -70,22 +74,22 @@ class _WeatherSearchState extends State<WeatherSearch> {
                           currentFocus.unfocus();
                         }
                         // if (_formKey.currentState!.validate()) {
-                        //   var networkProvider = Provider.of<NetworkInfoImpl>(
-                        //       context,
-                        //       listen: false);
-                        //   await networkProvider.checkNewtworkStatus();
-                        //   if (networkProvider.networkStatus == true) {
-                        //     value = _locationNameController.text;
-                        //     await weatherProvider.fetchLocation(value);
-                        //     if (weatherProvider.ifCountryExist == true) {
-                        // Navigator.pushNamed(context, Routes.weatherResultPage);
-                        appFlushBar(context, 'Network Error',
-                            'Network Error...Connect to a network to continue.');
-                        //       _locationNameController.clear();
-                        //     }
-                        //   } else {
-                        //     networkAlertMessage(context);
-                        //   }
+                        var networkProvider = Provider.of<NetworkInfoImpl>(
+                            context,
+                            listen: false);
+                        await networkProvider.checkNewtworkStatus();
+                        if (networkProvider.networkStatus == true) {
+                          //     value = _locationNameController.text;
+                          //     await weatherProvider.fetchLocation(value);
+                          //     if (weatherProvider.ifCountryExist == true) {
+                          // Navigator.pushNamed(context, Routes.weatherResultPage);
+                          Logger().d('Helo');
+                          //       _locationNameController.clear();
+                          //     }
+                        } else {
+                          appFlushBar(context, 'Network Error',
+                              'Network Error...Connect to a network to continue.');
+                        }
                         // }
                       },
                     ),

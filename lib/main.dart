@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/core/errors/network_info.dart';
-import 'package:worlad/features/home/presentation/providers/home_provider.dart';
+import 'package:worlad/features/home/presentation/services/home_service.dart';
 import 'package:worlad/features/splash_screen.dart';
 import 'package:worlad/core/navigators/navigators.dart';
 

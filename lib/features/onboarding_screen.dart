@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/assets.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/core/navigators/navigators.dart';
-import 'package:worlad/features/home/presentation/providers/home_provider.dart';
+import 'package:worlad/features/home/presentation/services/home_service.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({Key? key}) : super(key: key);

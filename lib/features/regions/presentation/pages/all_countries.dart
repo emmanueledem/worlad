@@ -10,6 +10,6 @@ class AllCountries extends StatefulWidget {
 class _AllCountriesState extends State<AllCountries> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold();
   }
 }

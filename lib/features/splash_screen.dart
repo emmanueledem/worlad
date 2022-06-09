@@ -5,7 +5,7 @@ import 'package:worlad/app/shared/assets.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/core/navigators/navigators.dart';
 
-import 'home/presentation/providers/home_provider.dart';
+import 'home/presentation/services/home_service.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
