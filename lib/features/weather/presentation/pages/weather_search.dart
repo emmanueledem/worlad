@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
 import 'package:worlad/app/widgets/flush_bar.dart';
-
-import '../../../../core/errors/network_info.dart';
+import '../../../../core/network/connectivity_info.dart';
 
 class WeatherSearch extends StatefulWidget {
   const WeatherSearch({Key? key}) : super(key: key);
@@ -17,6 +15,7 @@ class WeatherSearch extends StatefulWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
+final NetworkInfoImpl _connectivityInfo = NetworkInfoImpl();
 
 class _WeatherSearchState extends State<WeatherSearch> {
   @override
@@ -74,11 +73,8 @@ class _WeatherSearchState extends State<WeatherSearch> {
                           currentFocus.unfocus();
                         }
                         // if (_formKey.currentState!.validate()) {
-                        var networkProvider = Provider.of<NetworkInfoImpl>(
-                            context,
-                            listen: false);
-                        await networkProvider.checkNewtworkStatus();
-                        if (networkProvider.networkStatus == true) {
+
+                        if (await _connectivityInfo.isConnected) {
                           //     value = _locationNameController.text;
                           //     await weatherProvider.fetchLocation(value);
                           //     if (weatherProvider.ifCountryExist == true) {
@@ -87,8 +83,10 @@ class _WeatherSearchState extends State<WeatherSearch> {
                           //       _locationNameController.clear();
                           //     }
                         } else {
-                          appFlushBar(context, 'Network Error',
-                              'Network Error...Connect to a network to continue.');
+                          FlushBarNotification.showError(
+                              context,
+                              'No Internet Connection Detected',
+                              'Network Error!');
                         }
                         // }
                       },

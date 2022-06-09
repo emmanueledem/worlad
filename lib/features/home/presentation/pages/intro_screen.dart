@@ -4,8 +4,6 @@ import 'package:worlad/features/home/presentation/pages/home_screen.dart';
 import 'package:worlad/features/news/presentation/pages/all_news.dart';
 import 'package:worlad/features/regions/presentation/pages/all_countries.dart';
 import 'package:worlad/features/weather/presentation/pages/weather_main.dart';
-import 'package:provider/provider.dart';
-import '../../../../core/errors/network_info.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -29,24 +27,10 @@ class _IntroScreenState extends State<IntroScreen> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _handleNetwork();
-    
-  }
 
-  Future _handleNetwork() async {
-    var netWorkProvider = Provider.of<NetworkInfoImpl>(context, listen: false);
-    await netWorkProvider.checkNewtworkStatus();
-    // if(netWorkProvider.networkStatus != true){
-
-    // }
-  }
 
   @override
   Widget build(BuildContext context) {
-  
     return Scaffold(
       body: Stack(
         children: [

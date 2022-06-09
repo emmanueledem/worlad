@@ -2,6 +2,7 @@ import 'package:analog_clock/analog_clock.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:worlad/app/shared/colors.dart';
+import 'package:worlad/app/view_models/home/home_view_model.dart';
 import 'package:worlad/core/utils/greeting_utils.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,9 +13,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  @override
+
+
+    @override
   void initState() {
     super.initState();
+    _handleNetwork();
+  }
+
+  Future _handleNetwork() async {
+    await HomeViewModel().checkNewtwork(context: context);     
   }
 
   @override
