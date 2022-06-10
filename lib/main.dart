@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:provider/provider.dart';
+import 'package:worlad/app/view_models/weather/weather_view_model.dart';
 import 'package:worlad/features/home/presentation/services/home_service.dart';
 import 'package:worlad/features/splash_screen.dart';
 import 'package:worlad/core/navigators/navigators.dart';
 
 bool kReleaseMode = true;
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load();
   runApp(
     const MyApp(),
   );
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (context) => HomeProvider(),
         ),
-        
+        ChangeNotifierProvider(create: (context) => WeatherViewModel())
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

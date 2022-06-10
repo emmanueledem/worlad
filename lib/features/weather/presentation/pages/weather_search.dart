@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
+import 'package:worlad/app/view_models/weather/weather_view_model.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
 import 'package:worlad/app/widgets/flush_bar.dart';
 import '../../../../core/network/connectivity_info.dart';
+import 'package:worlad/core/navigators/navigators.dart';
 
 class WeatherSearch extends StatefulWidget {
   const WeatherSearch({Key? key}) : super(key: key);
@@ -15,11 +17,20 @@ class WeatherSearch extends StatefulWidget {
 }
 
 final _formKey = GlobalKey<FormState>();
+TextEditingController _locationNameController = TextEditingController();
 final NetworkInfoImpl _connectivityInfo = NetworkInfoImpl();
+String? value;
 
 class _WeatherSearchState extends State<WeatherSearch> {
   @override
+  void dispose() {
+    _locationNameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var weatherProvider = Provider.of<WeatherViewModel>(context, listen: true);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -38,7 +49,7 @@ class _WeatherSearchState extends State<WeatherSearch> {
         elevation: 0,
       ),
       body: ModalProgressHUD(
-        inAsyncCall: false,
+        inAsyncCall: weatherProvider.inAsyncCall,
         child: SafeArea(
           child: Column(
             children: [
@@ -50,6 +61,7 @@ class _WeatherSearchState extends State<WeatherSearch> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 21, vertical: 40),
                       child: TextFormField(
+                        controller: _locationNameController,
                         validator: (String? value) {
                           return (value == null || value.isEmpty)
                               ? 'Location is required'
@@ -72,23 +84,24 @@ class _WeatherSearchState extends State<WeatherSearch> {
                         if (!currentFocus.hasPrimaryFocus) {
                           currentFocus.unfocus();
                         }
-                        // if (_formKey.currentState!.validate()) {
+                        if (_formKey.currentState!.validate()) {
+                          if (await _connectivityInfo.isConnected) {
+                            value = _locationNameController.text;
 
-                        if (await _connectivityInfo.isConnected) {
-                          //     value = _locationNameController.text;
-                          //     await weatherProvider.fetchLocation(value);
-                          //     if (weatherProvider.ifCountryExist == true) {
-                          // Navigator.pushNamed(context, Routes.weatherResultPage);
-                          Logger().d('Helo');
-                          //       _locationNameController.clear();
-                          //     }
-                        } else {
-                          FlushBarNotification.showError(
-                              context,
-                              'No Internet Connection Detected',
-                              'Network Error!');
+                            await weatherProvider.handleWeather(
+                                location: value.toString());
+
+                            if (weatherProvider.weatherData != null) {
+                              Navigator.pushNamed(
+                                  context, Routes.weatherResultPage);
+                            }
+                          } else {
+                            FlushBarNotification.showError(
+                                context,
+                                'No Internet Connection Detected',
+                                'Network Error!');
+                          }
                         }
-                        // }
                       },
                     ),
                     const SizedBox(

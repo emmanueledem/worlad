@@ -10,6 +10,7 @@ class WeatherApiServiceRequester {
   final dio = Dio();
   final NetworkInfoImpl _connectivityInfo = NetworkInfoImpl();
   String? baseUrl = dotenv.env['WEATHER_BASE_URL'];
+  String? apiKey = dotenv.env['WEATHER_API_KEY'];
 
   // get request
   Future<Response> getRequest({required String url}) async {
@@ -22,11 +23,11 @@ class WeatherApiServiceRequester {
 
       try {
         final response = await dio.get(
-            baseUrl! + url,
+          baseUrl! + url + apiKey!,
         );
         return response;
       } catch (e) {
-        throw Exception();
+        throw NoInternetException();
       }
     } else {
       throw NoInternetException();

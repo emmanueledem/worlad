@@ -13,16 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
-
-    @override
+  @override
   void initState() {
     super.initState();
     _handleNetwork();
   }
 
   Future _handleNetwork() async {
-    await HomeViewModel().checkNewtwork(context: context);     
+    await HomeViewModel().checkNewtwork(context: context);
   }
 
   @override
@@ -37,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 Expanded(
                   child: Container(
-                    height: 250,
+                    height: MediaQuery.of(context).size.height * 0.2,
                     decoration: const BoxDecoration(
                         color: AppColor.appColour,
                         borderRadius: BorderRadius.only(
@@ -47,9 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Padding(
                       padding: const EdgeInsets.only(
                         left: 20,
-                        top: 65,
+                        top: 20,
                       ),
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(

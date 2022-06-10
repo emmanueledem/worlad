@@ -42,6 +42,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - .env
     - assets/images/
   fonts:
     - family: Poppins
@@ -51,4 +52,5 @@ flutter:
       fonts:
         - asset: assets/fonts/Inter/Inter-UI-Regular.otf
         - asset: assets/fonts/Inter/Inter-UI-Bold.otf
+   
       
