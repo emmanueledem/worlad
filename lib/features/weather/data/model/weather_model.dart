@@ -6,7 +6,6 @@ class WeatherModel {
     this.main,
     this.visibility,
     this.wind,
-    this.rain,
     this.clouds,
     this.dt,
     this.sys,
@@ -22,7 +21,6 @@ class WeatherModel {
   Main? main;
   int? visibility;
   Wind? wind;
-  Rain? rain;
   Clouds? clouds;
   int? dt;
   Sys? sys;
@@ -39,7 +37,6 @@ class WeatherModel {
         main: Main.fromJson(json["main"]),
         visibility: json["visibility"],
         wind: Wind.fromJson(json["wind"]),
-        rain: Rain.fromJson(json["rain"]),
         clouds: Clouds.fromJson(json["clouds"]),
         dt: json["dt"],
         sys: Sys.fromJson(json["sys"]),
@@ -56,7 +53,6 @@ class WeatherModel {
         "main": main!.toJson(),
         "visibility": visibility,
         "wind": wind!.toJson(),
-        "rain": rain!.toJson(),
         "clouds": clouds!.toJson(),
         "dt": dt,
         "sys": sys!.toJson(),

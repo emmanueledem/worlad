@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
@@ -6,6 +7,9 @@ import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/view_models/weather/weather_view_model.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
 import 'package:worlad/app/widgets/flush_bar.dart';
+import 'package:worlad/core/utils/greeting_utils.dart';
+import 'package:worlad/features/weather/data/model/local_weather_model.dart';
+import 'package:worlad/features/weather/presentation/pages/weather_result.dart';
 import '../../../../core/network/connectivity_info.dart';
 import 'package:worlad/core/navigators/navigators.dart';
 
@@ -19,14 +23,9 @@ class WeatherSearch extends StatefulWidget {
 final _formKey = GlobalKey<FormState>();
 TextEditingController _locationNameController = TextEditingController();
 final NetworkInfoImpl _connectivityInfo = NetworkInfoImpl();
-String? value;
 
 class _WeatherSearchState extends State<WeatherSearch> {
-  @override
-  void dispose() {
-    _locationNameController.dispose();
-    super.dispose();
-  }
+  String? value;
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +74,8 @@ class _WeatherSearchState extends State<WeatherSearch> {
                             labelText: 'Search a Location',
                             prefixIcon: const Icon(Icons.search,
                                 color: AppColor.appColour)),
+                        autofocus: true,
+                        autocorrect: true,
                       ),
                     ),
                     AppBusyButton(
@@ -92,8 +93,33 @@ class _WeatherSearchState extends State<WeatherSearch> {
                                 location: value.toString());
 
                             if (weatherProvider.weatherData != null) {
+                              await weatherProvider.localizeData(
+                                LocalWeatherModel(
+                                    description: weatherProvider
+                                        .weatherData!.weather![0].description,
+                                    locationName: value,
+                                    temperature: weatherProvider
+                                        .weatherData!.main!.temp!
+                                        .toInt(),
+                                    time: TimeFmt.getCurrentDate(),
+                                    weatherId: weatherProvider
+                                        .weatherData!.weather![0].id),
+                              );
+
                               Navigator.pushNamed(
-                                  context, Routes.weatherResultPage);
+                                context,
+                                Routes.weatherResultPage,
+                                arguments: DisplayWeatherInfo(
+                                    locationName: value,
+                                    temperature: weatherProvider
+                                        .weatherData!.main!.temp!
+                                        .toInt(),
+                                    description: weatherProvider
+                                        .weatherData!.weather![0].description,
+                                    id: weatherProvider
+                                        .weatherData!.weather![0].id),
+                              );
+                              _locationNameController.clear();
                             }
                           } else {
                             FlushBarNotification.showError(

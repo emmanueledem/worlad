@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
+import 'package:worlad/app/view_models/weather/weather_view_model.dart';
 
 class WeatherHistory extends StatefulWidget {
   const WeatherHistory({Key? key}) : super(key: key);
@@ -10,6 +12,18 @@ class WeatherHistory extends StatefulWidget {
 }
 
 class _WeatherHistoryState extends State<WeatherHistory> {
+  @override
+  void initState() {
+    _handleWeatherData();
+    super.initState();
+  }
+
+  Future<void> _handleWeatherData() async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<WeatherViewModel>(context, listen: false).getLocalWeatherData();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

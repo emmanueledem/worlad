@@ -13,12 +13,11 @@ import 'navigators.dart';
 class Routers {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-       case Routes.introScreen:
+      case Routes.introScreen:
         return _getPageRoute(
           routeName: settings.name,
           viewToShow: const IntroScreen(),
         );
-
 
       case Routes.viewNewsPage:
         return _getPageRoute(
@@ -50,9 +49,12 @@ class Routers {
         );
 
       case Routes.weatherResultPage:
+        final args = settings.arguments as DisplayWeatherInfo;
         return _getPageRoute(
           routeName: settings.name,
-          viewToShow: const WeatherResult(),
+          viewToShow: WeatherResult(
+            params: args,
+          ),
         );
 
       case Routes.weatherHistoryPage:
@@ -61,12 +63,11 @@ class Routers {
           viewToShow: const WeatherHistory(),
         );
 
-        case Routes.onBoardingPage:
+      case Routes.onBoardingPage:
         return _getPageRoute(
           routeName: settings.name,
           viewToShow: const OnboardingScreen(),
         );
-
 
       default:
         return MaterialPageRoute<dynamic>(
