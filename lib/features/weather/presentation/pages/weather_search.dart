@@ -100,10 +100,12 @@ class _WeatherSearchState extends State<WeatherSearch> {
                                     locationName: value,
                                     temperature: weatherProvider
                                         .weatherData!.main!.temp!
-                                        .toInt(),
+                                        .toInt()
+                                        ,
                                     time: TimeFmt.getCurrentDate(),
                                     weatherId: weatherProvider
-                                        .weatherData!.weather![0].id),
+                                        .weatherData!.weather![0].id
+                                ),
                               );
 
                               Navigator.pushNamed(

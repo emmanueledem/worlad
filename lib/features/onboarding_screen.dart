@@ -45,7 +45,6 @@ class OnboardingScreen extends StatelessWidget {
                 var userVisitingProvider =
                     Provider.of<HomeProvider>(context, listen: false);
               await userVisitingProvider.changeStatus();
-                Logger().d(userVisitingProvider.alreadyVisited);
                 Navigator.pushReplacementNamed(context, Routes.introScreen);
               },
               child: Container(

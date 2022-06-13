@@ -12,6 +12,7 @@ abstract class WeatherService {
   Future getWeatherInfo(double lon, double lat);
   Future runLocalization(LocalWeatherModel localWeatherData);
   Future getLocalizedData();
+  Future clearHistory();
 }
 
 class WeatherServiceImplementaion implements WeatherService {
@@ -21,8 +22,11 @@ class WeatherServiceImplementaion implements WeatherService {
   WeatherModel? _weatherData;
   WeatherModel? get weatherData => _weatherData;
 
-  LocalWeatherModel? _localWeatherData;
-  LocalWeatherModel? get LocalWeatherData => _localWeatherData;
+  bool _ifcomplete = true;
+  bool get ifcomplete => _ifcomplete;
+
+  List _localWeatherData = [];
+  List get localWeatherData => _localWeatherData;
 
   @override
   Future getLocationData(String location) async {
@@ -58,7 +62,6 @@ class WeatherServiceImplementaion implements WeatherService {
       var response = await dbHelper.db.insert(
           tableWeather, localWeatherData.toMap(),
           conflictAlgorithm: ConflictAlgorithm.replace);
-      Logger().d(response.bitLength);
     } catch (e) {
       Logger().e('$e');
     }
@@ -66,15 +69,21 @@ class WeatherServiceImplementaion implements WeatherService {
 
   @override
   Future getLocalizedData() async {
-    try {
-      dbHelper = DatabaseHelper();
-      await dbHelper.initDB();
-      final List<Map<String, dynamic>> queryResponse = await dbHelper.db.query(
-        tableWeather,
-      );
-      // _localWeatherData = LocalWeatherModel.fromMap(queryResponse);
-    } catch (e) {
-      Logger().d('$e');
-    }
+    dbHelper = DatabaseHelper();
+    await dbHelper.initDB();
+    final List<Map<String, dynamic>> queryResponse = await dbHelper.db.query(
+      tableWeather,
+      orderBy: "id DESC",
+    );
+    _localWeatherData = queryResponse;
+    _ifcomplete = false;
+  }
+
+  @override
+  Future<void> clearHistory() async {
+    dbHelper = DatabaseHelper();
+    await dbHelper.initDB();
+    await dbHelper.db.delete(tableWeather);
+    await getLocalizedData();
   }
 }

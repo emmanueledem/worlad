@@ -19,15 +19,16 @@ class DatabaseHelper {
       onCreate: (database, version) async {
         const idType = 'INTEGER PRIMARY KEY AUTOINCREMENT';
         const textType = 'TEXT NOT NULL';
+        const intType = 'INT NOT NULL';
         await database.execute(
           """
            CREATE TABLE $tableWeather (
        ${WeatherFields.id} $idType,
        ${WeatherFields.locationName} $textType,
-       ${WeatherFields.temperature} $textType,
+       ${WeatherFields.temperature} $intType,
        ${WeatherFields.description} $textType,
        ${WeatherFields.time} $textType,
-       ${WeatherFields.weatherId} $textType)
+       ${WeatherFields.weatherId} $intType)
           """,
         );
       },
