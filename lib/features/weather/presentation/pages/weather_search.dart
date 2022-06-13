@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
@@ -90,7 +89,7 @@ class _WeatherSearchState extends State<WeatherSearch> {
                             value = _locationNameController.text;
 
                             await weatherProvider.handleWeather(
-                                location: value.toString());
+                                location: value.toString(), context: context);
 
                             if (weatherProvider.weatherData != null) {
                               await weatherProvider.localizeData(
@@ -100,12 +99,10 @@ class _WeatherSearchState extends State<WeatherSearch> {
                                     locationName: value,
                                     temperature: weatherProvider
                                         .weatherData!.main!.temp!
-                                        .toInt()
-                                        ,
+                                        .toInt(),
                                     time: TimeFmt.getCurrentDate(),
                                     weatherId: weatherProvider
-                                        .weatherData!.weather![0].id
-                                ),
+                                        .weatherData!.weather![0].id),
                               );
 
                               Navigator.pushNamed(

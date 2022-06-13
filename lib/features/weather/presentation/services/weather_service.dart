@@ -1,14 +1,16 @@
 import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:worlad/core/errors/exceptions/faliure.dart';
 import 'package:worlad/core/local_storage/database_helper.dart';
 import 'package:worlad/features/weather/data/model/local_weather_model.dart';
 import 'package:worlad/features/weather/data/model/weather_model.dart';
 import 'package:worlad/features/weather/data/weather_api_requester.dart';
+import 'package:either_dart/either.dart';
 
 late DatabaseHelper dbHelper;
 
 abstract class WeatherService {
-  Future getLocationData(String location);
+  Future<Either<Failure, String>> getLocationData(String location);
   Future getWeatherInfo(double lon, double lat);
   Future runLocalization(LocalWeatherModel localWeatherData);
   Future getLocalizedData();
@@ -29,18 +31,24 @@ class WeatherServiceImplementaion implements WeatherService {
   List get localWeatherData => _localWeatherData;
 
   @override
-  Future getLocationData(String location) async {
+  Future<Either<Failure, String>> getLocationData(String location) async {
     try {
       final res = await _apiServiceRequester.getRequest(
           url: 'geo/1.0/direct?q=$location&limit=1&appid=');
-
-      var long = res.data[0]["lat"];
-      var lati = res.data[0]["lon"];
-      final response = await getWeatherInfo(long, lati);
-      _weatherData = WeatherModel.fromJson(response.data);
+      List resList = res.data;
+      if (resList.isNotEmpty) {
+        var long = res.data[0]["lat"];
+        var lati = res.data[0]["lon"];
+        final response = await getWeatherInfo(long, lati);
+        _weatherData = WeatherModel.fromJson(response.data);
+      } else {
+        _weatherData = null;
+        return const Right('This Location Does Not Exist');
+      }
     } catch (e) {
       Logger().d('$e');
     }
+    return Left(UnknownFailure());
   }
 
   @override
@@ -59,8 +67,7 @@ class WeatherServiceImplementaion implements WeatherService {
     dbHelper = DatabaseHelper();
     await dbHelper.initDB();
     try {
-      var response = await dbHelper.db.insert(
-          tableWeather, localWeatherData.toMap(),
+      await dbHelper.db.insert(tableWeather, localWeatherData.toMap(),
           conflictAlgorithm: ConflictAlgorithm.replace);
     } catch (e) {
       Logger().e('$e');

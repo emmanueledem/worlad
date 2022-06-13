@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/assets.dart';
 import 'package:worlad/app/shared/colors.dart';

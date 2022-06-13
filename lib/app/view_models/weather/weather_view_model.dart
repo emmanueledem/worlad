@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:worlad/app/view_models/base_view_model.dart';
+import 'package:worlad/app/widgets/flush_bar.dart';
 import 'package:worlad/features/weather/data/model/local_weather_model.dart';
 import '../../../features/weather/presentation/services/weather_service.dart';
 import 'package:worlad/features/weather/data/model/weather_model.dart';
@@ -11,10 +13,17 @@ class WeatherViewModel extends BaseViewModel {
   bool get ifcomplete => _weatherService.ifcomplete;
   bool inAsyncCall = false;
 
-  Future<void> handleWeather({required String location}) async {
+  Future<void> handleWeather({
+    required String location,
+    required BuildContext context,
+  }) async {
     setBusy(true);
     inAsyncCall = true;
-    await _weatherService.getLocationData(location);
+    final res = await _weatherService.getLocationData(location);
+    res.fold((l) => {}, (r) {
+      FlushBarNotification.showError(
+          context, 'This Location Does Not Exist', 'Opps Sorry!');
+    });
     inAsyncCall = false;
     setBusy(false);
   }
