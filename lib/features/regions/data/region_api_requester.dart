@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worlad/core/errors/error.dart';
 import 'package:worlad/core/network/network.dart';
@@ -10,6 +11,7 @@ class RegionApiServiceRequester {
   final dio = Dio();
   final NetworkInfoImpl _connectivityInfo = NetworkInfoImpl();
   String? baseUrl = dotenv.env['REGION_BASE_URL'];
+  String? apiKey = dotenv.env['REGION_API_KEY'];
 
   // get request
   Future<Response> getRequest({required String url}) async {
@@ -21,11 +23,11 @@ class RegionApiServiceRequester {
       dio.options.contentType = 'application/json';
 
       try {
-        final response = await dio.get(
-            baseUrl! + url,
-        );
+        final response = await dio
+            .get('https://countriesnow.space/api/v0.1/countries/flag/images');
         return response;
       } catch (e) {
+        Logger().d('$e');
         throw Exception();
       }
     } else {

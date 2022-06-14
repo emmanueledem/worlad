@@ -30,6 +30,7 @@ class Routers {
           routeName: settings.name,
           viewToShow: const SearchNews(),
         );
+
       case Routes.allcitiesPage:
         return _getPageRoute(
           routeName: settings.name,
@@ -37,9 +38,12 @@ class Routers {
         );
 
       case Routes.allStatesPage:
+        final args = settings.arguments as AllStatePram;
         return _getPageRoute(
           routeName: settings.name,
-          viewToShow: const AllStates(),
+          viewToShow:  AllStates(
+           params: args,
+          ),
         );
 
       case Routes.weatherSearchPage:

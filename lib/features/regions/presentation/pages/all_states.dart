@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/shared/text_style.dart';
@@ -7,8 +6,8 @@ import 'package:worlad/app/shared/text_style.dart';
 import '../../../../core/navigators/navigators.dart';
 
 class AllStates extends StatefulWidget {
-  const AllStates({Key? key}) : super(key: key);
-
+  const AllStates({Key? key, required this.params}) : super(key: key);
+  final AllStatePram? params;
   @override
   State<AllStates> createState() => _AllStatesState();
 }
@@ -63,8 +62,14 @@ class _AllStatesState extends State<AllStates> {
                     },
                     child: const Card(
                       child: ListTile(
-                        title: Text('Name: Central Province', style: klistTileTitle,),
-                        subtitle: Text('State Id: 02', style: kListTileSubtitle,),
+                        title: Text(
+                          'Name: Central Province',
+                          style: klistTileTitle,
+                        ),
+                        subtitle: Text(
+                          'State Id: 02',
+                          style: kListTileSubtitle,
+                        ),
                         trailing: Icon(
                           Icons.arrow_circle_right,
                           color: AppColor.appColour,
@@ -78,4 +83,9 @@ class _AllStatesState extends State<AllStates> {
           ],
         ));
   }
+}
+
+class AllStatePram {
+  AllStatePram({ required this.countryName});
+  final String? countryName;
 }
