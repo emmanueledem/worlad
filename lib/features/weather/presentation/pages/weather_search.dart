@@ -46,103 +46,105 @@ class _WeatherSearchState extends State<WeatherSearch> {
         automaticallyImplyLeading: false,
         elevation: 0,
       ),
-      body: ModalProgressHUD(
-        inAsyncCall: weatherProvider.inAsyncCall,
-        child: SafeArea(
-          child: Column(
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 21, vertical: 40),
-                      child: TextFormField(
-                        controller: _locationNameController,
-                        validator: (String? value) {
-                          return (value == null || value.isEmpty)
-                              ? 'Location is required'
-                              : null;
-                        },
-                        style: const TextStyle(
-                            color: Colors.black87,
-                            fontFamily: 'poppins',
-                            height: 1.3),
-                        decoration: kCountryInputDecorationStyle.copyWith(
-                            labelText: 'Search a Location',
-                            prefixIcon: const Icon(Icons.search,
-                                color: AppColor.appColour)),
-                        autofocus: true,
-                        autocorrect: true,
+      body: SingleChildScrollView(
+        child: ModalProgressHUD(
+          inAsyncCall: weatherProvider.inAsyncCall,
+          child: SafeArea(
+            child: Column(
+              children: [
+                Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 21, vertical: 40),
+                        child: TextFormField(
+                          controller: _locationNameController,
+                          validator: (String? value) {
+                            return (value == null || value.isEmpty)
+                                ? 'Location is required'
+                                : null;
+                          },
+                          style: const TextStyle(
+                              color: Colors.black87,
+                              fontFamily: 'poppins',
+                              height: 1.3),
+                          decoration: kCountryInputDecorationStyle.copyWith(
+                              labelText: 'Search a Location',
+                              prefixIcon: const Icon(Icons.search,
+                                  color: AppColor.appColour)),
+                          autofocus: true,
+                          autocorrect: true,
+                        ),
                       ),
-                    ),
-                    AppBusyButton(
-                      butttonText: "Search a Location",
-                      onpressed: () async {
-                        FocusScopeNode currentFocus = FocusScope.of(context);
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
-                        }
-                        if (_formKey.currentState!.validate()) {
-                          if (await _connectivityInfo.isConnected) {
-                            value = _locationNameController.text;
-
-                            await weatherProvider.handleWeather(
-                                location: value.toString(), context: context);
-
-                            if (weatherProvider.weatherData != null) {
-                              await weatherProvider.localizeData(
-                                LocalWeatherModel(
-                                    description: weatherProvider
-                                        .weatherData!.weather![0].description,
-                                    locationName: value,
-                                    temperature: weatherProvider
-                                        .weatherData!.main!.temp!
-                                        .toInt(),
-                                    time: TimeFmt.getCurrentDate(),
-                                    weatherId: weatherProvider
-                                        .weatherData!.weather![0].id),
-                              );
-
-                              Navigator.pushNamed(
-                                context,
-                                Routes.weatherResultPage,
-                                arguments: DisplayWeatherInfo(
-                                    locationName: value,
-                                    temperature: weatherProvider
-                                        .weatherData!.main!.temp!
-                                        .toInt(),
-                                    description: weatherProvider
-                                        .weatherData!.weather![0].description,
-                                    id: weatherProvider
-                                        .weatherData!.weather![0].id),
-                              );
-                              _locationNameController.clear();
-                            }
-                          } else {
-                            FlushBarNotification.showError(
-                                context,
-                                'No Internet Connection Detected',
-                                'Network Error!');
+                      AppBusyButton(
+                        butttonText: "Search a Location",
+                        onpressed: () async {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
                           }
-                        }
-                      },
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    // weatherProvider.ifCountryExist == false
-                    // ? const Center(
-                    //     child: Text(
-                    //     'This Location does not exist',
-                    //     style: TextStyle(color: Colors.red, fontSize: 15),
-                    //   ))
-                    // : const Text(''),
-                  ],
+                          if (_formKey.currentState!.validate()) {
+                            if (await _connectivityInfo.isConnected) {
+                              value = _locationNameController.text;
+
+                              await weatherProvider.handleWeather(
+                                  location: value.toString(), context: context);
+
+                              if (weatherProvider.weatherData != null) {
+                                await weatherProvider.localizeData(
+                                  LocalWeatherModel(
+                                      description: weatherProvider
+                                          .weatherData!.weather![0].description,
+                                      locationName: value,
+                                      temperature: weatherProvider
+                                          .weatherData!.main!.temp!
+                                          .toInt(),
+                                      time: TimeFmt.getCurrentDate(),
+                                      weatherId: weatherProvider
+                                          .weatherData!.weather![0].id),
+                                );
+
+                                Navigator.pushNamed(
+                                  context,
+                                  Routes.weatherResultPage,
+                                  arguments: DisplayWeatherInfo(
+                                      locationName: value,
+                                      temperature: weatherProvider
+                                          .weatherData!.main!.temp!
+                                          .toInt(),
+                                      description: weatherProvider
+                                          .weatherData!.weather![0].description,
+                                      id: weatherProvider
+                                          .weatherData!.weather![0].id),
+                                );
+                                _locationNameController.clear();
+                              }
+                            } else {
+                              FlushBarNotification.showError(
+                                  context,
+                                  'No Internet Connection Detected',
+                                  'Network Error!');
+                            }
+                          }
+                        },
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      // weatherProvider.ifCountryExist == false
+                      // ? const Center(
+                      //     child: Text(
+                      //     'This Location does not exist',
+                      //     style: TextStyle(color: Colors.red, fontSize: 15),
+                      //   ))
+                      // : const Text(''),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

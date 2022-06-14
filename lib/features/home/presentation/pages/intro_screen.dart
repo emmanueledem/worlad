@@ -27,11 +27,10 @@ class _IntroScreenState extends State<IntroScreen> {
     });
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           _widgetOptions.elementAt(_selectedIndex),

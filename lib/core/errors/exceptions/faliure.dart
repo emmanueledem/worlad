@@ -75,8 +75,6 @@ class FailureToMessage {
       message = failure.message;
     } else if (failure is ExistingValue) {
       message = 'Incorrect data provided';
-    } else if (failure is InvalidCredentials) {
-      message = 'Incorrect email or password';
     } else if (failure is PendingFailure) {
       message = 'Request is pending, please try again later';
     } else if (failure is CustomKnownFailure) {
