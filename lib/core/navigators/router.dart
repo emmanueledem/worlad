@@ -4,6 +4,7 @@ import 'package:worlad/features/news/presentation/pages/search_news.dart';
 import 'package:worlad/features/news/presentation/pages/view_news.dart';
 import 'package:worlad/features/onboarding_screen.dart';
 import 'package:worlad/features/regions/presentation/pages/all_cities.dart';
+import 'package:worlad/features/regions/presentation/pages/all_countries.dart';
 import 'package:worlad/features/regions/presentation/pages/all_states.dart';
 import 'package:worlad/features/weather/presentation/pages/weather_history.dart';
 import 'package:worlad/features/weather/presentation/pages/weather_result.dart';
@@ -17,6 +18,12 @@ class Routers {
         return _getPageRoute(
           routeName: settings.name,
           viewToShow: const IntroScreen(),
+        );
+
+      case Routes.allCountries:
+        return _getPageRoute(
+          routeName: settings.name,
+          viewToShow: const AllCountries(),
         );
 
       case Routes.viewNewsPage:
@@ -41,8 +48,8 @@ class Routers {
         final args = settings.arguments as AllStatePram;
         return _getPageRoute(
           routeName: settings.name,
-          viewToShow:  AllStates(
-           params: args,
+          viewToShow: AllStates(
+            params: args,
           ),
         );
 

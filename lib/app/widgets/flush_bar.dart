@@ -8,7 +8,7 @@ class FlushBarNotification {
       flushbarPosition: top ? FlushbarPosition.TOP : FlushbarPosition.BOTTOM,
       padding: const EdgeInsets.fromLTRB(20, 10, 5, 10),
       message: message,
-      duration: const Duration(seconds: 5),
+      duration: const Duration(seconds: 5,),
       backgroundColor: Colors.red,
       dismissDirection: FlushbarDismissDirection.HORIZONTAL,
       title: title,

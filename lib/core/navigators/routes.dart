@@ -8,4 +8,5 @@ class Routes {
   static const String viewNewsPage = '/viewNewsPage';
   static const String searchNewsPage = '/searchNewsPage';
   static const String onBoardingPage = '/onBoardingPage';
+  static const String allCountries = '/allCountries';
 }

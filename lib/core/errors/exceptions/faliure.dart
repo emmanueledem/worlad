@@ -71,6 +71,7 @@ class FailureToMessage {
     var message = 'An Error occurred, please try again';
     if (failure is NoInternetFailure) {
       message = 'Please check your internet connection and try again';
+      
     } else if (failure is ServerFailure) {
       message = failure.message;
     } else if (failure is ExistingValue) {

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
+import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/shared/text_style.dart';
+import 'package:worlad/app/view_models/regions/region_view_model.dart';
+import 'package:worlad/core/utils/string_utils.dart';
 
 import '../../../../core/navigators/navigators.dart';
 
@@ -14,8 +18,44 @@ class AllStates extends StatefulWidget {
 
 class _AllStatesState extends State<AllStates> {
   final TextEditingController _stateController = TextEditingController();
+
+  String _searchText = '';
+  @override
+  void initState() {
+    _searchText = _stateController.text.trim();
+    _stateController.addListener(() {
+      setState(() {
+        _searchText = _stateController.text.trim();
+      });
+    });
+    _handleStateData();
+    super.initState();
+  }
+
+  Future<void> _handleStateData() async {
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      Provider.of<RegionViewModel>(context, listen: false).handlestates(
+          context: context, countryName: widget.params?.countryName);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    Logger().d(widget.params?.countryName);
+    var regionProvider = Provider.of<RegionViewModel>(context);
+    List? _countryList;
+    if (regionProvider.countryData?.data != null) {
+      _countryList = _searchText.isEmpty
+          ? regionProvider.countryData!.data!
+          : regionProvider.countryData!.data!
+              .where((item) => item.name!.contains(
+                    RegExp(
+                      StringUtil.escapeSpecial(_searchText),
+                      caseSensitive: false,
+                    ),
+                  ))
+              .toList();
+    }
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -86,6 +126,6 @@ class _AllStatesState extends State<AllStates> {
 }
 
 class AllStatePram {
-  AllStatePram({ required this.countryName});
+  AllStatePram({required this.countryName});
   final String? countryName;
 }
