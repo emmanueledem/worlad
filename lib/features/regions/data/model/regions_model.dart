@@ -1,3 +1,21 @@
+const tableCountries = 'countries';
+
+
+class CountryFields {
+  static final List<String> values = [
+    id,
+    image,
+    countryName,
+    abbreviation,
+  ];
+
+  static const String id = 'id';
+  static const String countryName = 'countryName';
+  static const String image = 'image';
+  static const String abbreviation = 'abbreviation';
+}
+
+
 
 class RegionModel {
     RegionModel({
@@ -48,5 +66,78 @@ class Datum {
         "flag": flag,
         "iso2": iso2,
         "iso3": iso3,
+    };
+}
+
+
+
+
+
+
+class StateModel {
+    StateModel({
+        this.error,
+        this.msg,
+        this.data,
+    });
+
+    bool? error;
+    String? msg;
+    Data? data;
+
+    factory StateModel.fromJson(Map<String, dynamic> json) => StateModel(
+        error: json["error"],
+        msg: json["msg"],
+        data: Data.fromJson(json["data"]),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "error": error,
+        "msg": msg,
+        "data": data!.toJson(),
+    };
+}
+
+class Data {
+    Data({
+        this.name,
+        this.iso3,
+        this.states,
+    });
+
+    String? name;
+    String? iso3;
+    List<States>? states;
+
+    factory Data.fromJson(Map<String, dynamic> json) => Data(
+        name: json["name"],
+        iso3: json["iso3"],
+        states: List<States>.from(json["states"].map((x) => States.fromJson(x))),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "iso3": iso3,
+        "states": List<dynamic>.from(states!.map((x) => x.toJson())),
+    };
+}
+
+class States {
+    States({
+        this.name,
+        this.stateCode,
+    });
+
+    String? name;
+    String? stateCode;
+
+    factory States.fromJson(Map<String, dynamic> json) => States(
+        name: json["name"],
+        stateCode: json["state_code"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "name": name,
+        "state_code": stateCode,
     };
 }

@@ -10,6 +10,7 @@ import 'package:worlad/app/view_models/regions/region_view_model.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
 import 'package:worlad/core/navigators/routes.dart';
 import 'package:worlad/core/utils/string_utils.dart';
+import 'package:worlad/features/regions/data/model/regions_model.dart';
 import 'package:worlad/features/regions/presentation/pages/all_states.dart';
 
 class AllCountries extends StatefulWidget {
@@ -51,7 +52,7 @@ class _AllCountriesState extends State<AllCountries> {
   @override
   Widget build(BuildContext context) {
     var regionProvider = Provider.of<RegionViewModel>(context);
-    List? _countryList;
+    List<Datum>? _countryList;
     if (regionProvider.countryData?.data != null) {
       _countryList = _searchText.isEmpty
           ? regionProvider.countryData!.data!
@@ -79,7 +80,7 @@ class _AllCountriesState extends State<AllCountries> {
                 fontFamily: 'poppins'),
           ),
         ),
-        body: regionProvider.isNotAccessd == true
+        body: regionProvider.isNotAccessd == false
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +97,6 @@ class _AllCountriesState extends State<AllCountries> {
                     AppBusyButton(
                         butttonText: 'Retry',
                         onpressed: () async {
-                          regionProvider.isNotAccessd = false;
                           await _handleCountryData();
                           setState(() {});
                         })
@@ -167,7 +167,8 @@ class _AllCountriesState extends State<AllCountries> {
                                                 style: klistTileTitle,
                                               ),
                                               subtitle: Text(
-                                                'Abbreviation: ' + e.iso3,
+                                                'Abbreviation: ' +
+                                                    e.iso3.toString(),
                                                 style: kListTileSubtitle,
                                               ),
                                               trailing: const Icon(

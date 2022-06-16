@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
 import 'package:worlad/app/view_models/base_view_model.dart';
 import 'package:worlad/app/widgets/flush_bar.dart';
 import 'package:worlad/features/weather/data/model/local_weather_model.dart';
@@ -20,7 +21,11 @@ class WeatherViewModel extends BaseViewModel {
     setBusy(true);
     inAsyncCall = true;
     final res = await _weatherService.getLocationData(location);
-    res.fold((l) => {}, (r) {
+    res.fold(
+        (l) => {
+              // FlushBarNotification.showError(
+              //     context, 'No Internet Connection Detected', 'Network Error!')
+            }, (r) {
       FlushBarNotification.showError(
           context, 'This Location Does Not Exist', 'Opps Sorry!');
     });

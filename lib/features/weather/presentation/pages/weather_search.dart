@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
@@ -87,10 +88,8 @@ class _WeatherSearchState extends State<WeatherSearch> {
                         if (_formKey.currentState!.validate()) {
                           if (await _connectivityInfo.isConnected) {
                             value = _locationNameController.text;
-
                             await weatherProvider.handleWeather(
                                 location: value.toString(), context: context);
-
                             if (weatherProvider.weatherData != null) {
                               await weatherProvider.localizeData(
                                 LocalWeatherModel(

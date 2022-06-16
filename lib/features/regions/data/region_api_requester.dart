@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:worlad/core/errors/error.dart';
 import 'package:worlad/core/network/network.dart';
@@ -33,18 +34,23 @@ class RegionApiServiceRequester {
   // post request
   Future<Response> postRequest(
       {required String url, required dynamic body}) async {
-         if (await _connectivityInfo.isConnected) {
-    var prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
+    if (await _connectivityInfo.isConnected) {
+      Logger().d(baseUrl);
+      var prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
 
-    dio.options.headers['Authorization'] = 'Bearer $token';
-    dio.options.contentType = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      dio.options.contentType = 'application/json';
 
-   
       final response = await dio.post(
         baseUrl! + url,
         data: body,
+        options: Options(
+          // followRedirects: false,
+          validateStatus: (status) => true,
+        ),
       );
+      Logger().d(response);
       return response;
     } else {
       throw NoInternetException();
@@ -52,10 +58,8 @@ class RegionApiServiceRequester {
     }
   }
 
-
-
 //  put request
-    Future<Response> put({
+  Future<Response> put({
     required String url,
     required dynamic body,
   }) async {

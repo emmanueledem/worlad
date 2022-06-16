@@ -1,5 +1,6 @@
 import 'package:logger/logger.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:worlad/core/errors/error.dart';
 import 'package:worlad/core/errors/exceptions/faliure.dart';
 import 'package:worlad/core/local_storage/database_helper.dart';
 import 'package:worlad/features/weather/data/model/local_weather_model.dart';
@@ -47,6 +48,9 @@ class WeatherServiceImplementaion implements WeatherService {
       }
     } catch (e) {
       Logger().d('$e');
+      if (e is NoInternetException) {
+        return Left(NoInternetFailure());
+      }
     }
     return Left(UnknownFailure());
   }

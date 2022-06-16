@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/shared/text_style.dart';
 import 'package:worlad/app/view_models/regions/region_view_model.dart';
+import 'package:worlad/app/widgets/busy_button.dart';
 import 'package:worlad/core/utils/string_utils.dart';
+import 'package:worlad/features/regions/data/model/regions_model.dart';
 
 import '../../../../core/navigators/navigators.dart';
 
@@ -35,27 +38,27 @@ class _AllStatesState extends State<AllStates> {
   Future<void> _handleStateData() async {
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       Provider.of<RegionViewModel>(context, listen: false).handlestates(
-          context: context, countryName: widget.params?.countryName);
+          context: context, countryname: widget.params?.countryName);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    Logger().d(widget.params?.countryName);
     var regionProvider = Provider.of<RegionViewModel>(context);
-    List? _countryList;
-    if (regionProvider.countryData?.data != null) {
-      _countryList = _searchText.isEmpty
-          ? regionProvider.countryData!.data!
-          : regionProvider.countryData!.data!
+    List<States>? _statesList;
+    if (regionProvider.stateData?.data!.states != null) {
+      _statesList = (_searchText.isEmpty
+          ? regionProvider.stateData!.data!.states!
+          : regionProvider.stateData!.data!.states!
               .where((item) => item.name!.contains(
                     RegExp(
                       StringUtil.escapeSpecial(_searchText),
                       caseSensitive: false,
                     ),
                   ))
-              .toList();
+              .toList());
     }
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -72,56 +75,94 @@ class _AllStatesState extends State<AllStates> {
                 fontFamily: 'poppins'),
           ),
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 20),
-              child: TextFormField(
-                controller: _stateController,
-                validator: (String? value) {
-                  return (value == null || value.isEmpty)
-                      ? 'State Name is required'
-                      : null;
-                },
-                style: const TextStyle(
-                    color: Colors.black87, fontFamily: 'poppins', height: 1.3),
-                decoration: kCountryInputDecorationStyle.copyWith(
-                    labelText: 'Search a State',
-                    prefixIcon:
-                        const Icon(Icons.search, color: AppColor.appColour)),
-                autocorrect: true,
-              ),
-            ),
-            Expanded(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.pushNamed(context, Routes.allcitiesPage);
-                    },
-                    child: const Card(
-                      child: ListTile(
-                        title: Text(
-                          'Name: Central Province',
-                          style: klistTileTitle,
-                        ),
-                        subtitle: Text(
-                          'State Id: 02',
-                          style: kListTileSubtitle,
-                        ),
-                        trailing: Icon(
-                          Icons.arrow_circle_right,
-                          color: AppColor.appColour,
+        body: regionProvider.isNotAccessd == false
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Opps somethings went wrong...',
+                      style: TextStyle(
+                          fontFamily: 'poppins',
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87),
+                    ),
+                    const Gap(10),
+                    AppBusyButton(
+                        butttonText: 'Retry',
+                        onpressed: () async {
+                          await _handleStateData();
+                          setState(() {});
+                        })
+                  ],
+                ),
+              )
+            : regionProvider.stateData?.data!.states! == null
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColor.appColour,
+                    ),
+                  )
+                : Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 18, vertical: 20),
+                        child: TextFormField(
+                          controller: _stateController,
+                          validator: (String? value) {
+                            return (value == null || value.isEmpty)
+                                ? 'State Name is required'
+                                : null;
+                          },
+                          style: const TextStyle(
+                              color: Colors.black87,
+                              fontFamily: 'poppins',
+                              height: 1.3),
+                          decoration: kCountryInputDecorationStyle.copyWith(
+                              labelText: 'Search a State',
+                              prefixIcon: const Icon(Icons.search,
+                                  color: AppColor.appColour)),
+                          autocorrect: true,
                         ),
                       ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ));
+                      Expanded(
+                          child: _statesList!.isNotEmpty
+                              ? ListView(
+                                  shrinkWrap: true,
+                                  children: _statesList
+                                      .map(
+                                        (e) => GestureDetector(
+                                          onTap: () {
+                                            Navigator.pushNamed(
+                                                context, Routes.allcitiesPage);
+                                          },
+                                          child: Card(
+                                            child: ListTile(
+                                              title: Text(
+                                                'Name: ' + e.name.toString(),
+                                                style: klistTileTitle,
+                                              ),
+                                              subtitle: Text(
+                                                'State Id: ' +
+                                                    e.stateCode.toString(),
+                                                style: kListTileSubtitle,
+                                              ),
+                                              trailing: const Icon(
+                                                Icons.arrow_circle_right,
+                                                color: AppColor.appColour,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                      .toList(),
+                                )
+                              : const Text(
+                                  'We can\'t find result for this search')),
+                    ],
+                  ));
   }
 }
 

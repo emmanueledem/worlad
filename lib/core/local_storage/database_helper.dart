@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import '../../features/regions/data/model/regions_model.dart';
 import '../../features/weather/data/model/local_weather_model.dart';
 
 class DatabaseHelper {
@@ -29,6 +30,15 @@ class DatabaseHelper {
        ${WeatherFields.description} $textType,
        ${WeatherFields.time} $textType,
        ${WeatherFields.weatherId} $intType)
+          """,
+        );
+         await database.execute(
+          """
+           CREATE TABLE $tableCountries (
+       ${CountryFields.id} $idType,
+       ${CountryFields.image} $textType,
+       ${CountryFields.countryName} $textType,
+       ${CountryFields.abbreviation} $textType,
           """,
         );
       },
