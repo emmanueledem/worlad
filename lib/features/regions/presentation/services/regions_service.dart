@@ -1,4 +1,3 @@
-import 'package:either_dart/either.dart';
 import 'package:logger/logger.dart';
 import 'package:worlad/core/local_storage/database_helper.dart';
 import 'package:worlad/features/regions/data/model/regions_model.dart';
@@ -10,9 +9,8 @@ late DatabaseHelper dbHelper;
 abstract class RegionService {
   Future<void> allCountries();
   Future<void> allStates({required String countryName});
-  Future<void>  allCities({required String countryName, required String stateName});
-
-
+  Future<void> allCities(
+      {required String countryName, required String stateName});
   // Future<void> runLocalization(LocalCountryModel localCountryModel);
 }
 
@@ -25,6 +23,9 @@ class RegionServiceImplementation implements RegionService {
 
   StateModel? _stateData;
   StateModel? get stateData => _stateData;
+
+  CitiesModel? _citiesData;
+  CitiesModel? get citiesData => _citiesData;
 
   // _localCountryData
 
@@ -42,17 +43,17 @@ class RegionServiceImplementation implements RegionService {
           url: 'api/v0.1/countries/flag/images');
       _countryData = RegionModel.fromJson(response.data);
 
-      for (var item in _countryData!.data!) {
-        Logger().d([
-          item.flag,
-          item.name,
-          item.iso3,
-          item.iso2,
-        ]);
-        // await runLocalization(
-        //   LocalCountryModel(countryName: countryName, flag: flag, iso3: iso3),
-        // );
-      }
+      // for (var item in _countryData!.data!) {
+      // Logger().d([
+      //   item.flag,
+      //   item.name,
+      //   item.iso3,
+      //   item.iso2,
+      // ]);
+      // await runLocalization(
+      //   LocalCountryModel(countryName: countryName, flag: flag, iso3: iso3),
+      // );
+      // }
       // save data to local db
     } catch (e) {
       Logger().d('$e');
@@ -78,15 +79,16 @@ class RegionServiceImplementation implements RegionService {
     }
   }
 
-
   @override
-  Future<void> allCities({required String countryName,required   String stateName}) async {
+  Future<void> allCities(
+      {required String countryName, required String stateName}) async {
+   
     try {
       _isNotAccessd = true;
       final response = await _apiServiceRequester.getRequest(
-        url: 'api/v0.1/countries/state/cities/q?country=$countryName&state=$stateName',
-      );
-      _stateData = StateModel.fromJson(response.data);
+          url:
+              'api/v0.1/countries/state/cities/q?country=$countryName&state=$stateName');
+      _citiesData = CitiesModel.fromJson(response.data);
     } catch (e) {
       Logger().d('$e');
       if (e is NoInternetException) {

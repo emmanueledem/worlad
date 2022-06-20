@@ -39,9 +39,12 @@ class Routers {
         );
 
       case Routes.allcitiesPage:
+        final args = settings.arguments as AllCitiesPram;
         return _getPageRoute(
           routeName: settings.name,
-          viewToShow: const AllCities(),
+          viewToShow:  AllCities(
+            params:  args,
+          ),
         );
 
       case Routes.allStatesPage:

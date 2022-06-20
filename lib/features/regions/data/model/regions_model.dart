@@ -141,3 +141,31 @@ class States {
         "state_code": stateCode,
     };
 }
+
+
+
+
+
+class CitiesModel {
+    CitiesModel({
+        this.error,
+        this.msg,
+        this.data,
+    });
+
+    bool? error;
+    String? msg;
+    List<String>? data;
+
+    factory CitiesModel.fromJson(Map<String, dynamic> json) => CitiesModel(
+        error: json["error"],
+        msg: json["msg"],
+        data: List<String>.from(json["data"].map((x) => x)),
+    );
+
+    Map<String, dynamic> toJson() => {
+        "error": error,
+        "msg": msg,
+        "data": List<dynamic>.from(data!.map((x) => x)),
+    };
+}

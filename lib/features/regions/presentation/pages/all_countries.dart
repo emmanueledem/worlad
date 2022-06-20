@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
@@ -181,7 +180,7 @@ class _AllCountriesState extends State<AllCountries> {
                                       )
                                       .toList())
                               : const Text(
-                                  'We can\'t find result for this search')),
+                                  'We can\'t find result for this request')),
                       const Gap(80)
                     ],
                   ));

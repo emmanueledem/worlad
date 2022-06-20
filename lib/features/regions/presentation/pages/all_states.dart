@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:logger/logger.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/shared/shared_styles.dart';
@@ -9,6 +8,7 @@ import 'package:worlad/app/view_models/regions/region_view_model.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
 import 'package:worlad/core/utils/string_utils.dart';
 import 'package:worlad/features/regions/data/model/regions_model.dart';
+import 'package:worlad/features/regions/presentation/pages/all_cities.dart';
 
 import '../../../../core/navigators/navigators.dart';
 
@@ -101,7 +101,7 @@ class _AllStatesState extends State<AllStates> {
             : regionProvider.stateData?.data!.states! == null
                 ? const Center(
                     child: CircularProgressIndicator(
-                      color: AppColor.appColour,
+                      color: Color.fromRGBO(113, 1, 147, 1),
                     ),
                   )
                 : Column(
@@ -136,7 +136,11 @@ class _AllStatesState extends State<AllStates> {
                                         (e) => GestureDetector(
                                           onTap: () {
                                             Navigator.pushNamed(
-                                                context, Routes.allcitiesPage);
+                                                context, Routes.allcitiesPage,
+                                                arguments: AllCitiesPram(
+                                                    countryName: widget
+                                                        .params!.countryName,
+                                                    stateName: e.name));
                                           },
                                           child: Card(
                                             child: ListTile(
@@ -160,7 +164,7 @@ class _AllStatesState extends State<AllStates> {
                                       .toList(),
                                 )
                               : const Text(
-                                  'We can\'t find result for this search')),
+                                  'We can\'t find result for this request')),
                     ],
                   ));
   }

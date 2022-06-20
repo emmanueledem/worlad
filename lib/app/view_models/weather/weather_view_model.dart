@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:logger/logger.dart';
 import 'package:worlad/app/view_models/base_view_model.dart';
 import 'package:worlad/app/widgets/flush_bar.dart';
 import 'package:worlad/features/weather/data/model/local_weather_model.dart';

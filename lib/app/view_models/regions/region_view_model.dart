@@ -10,7 +10,9 @@ class RegionViewModel extends BaseViewModel {
 
   RegionModel? get countryData => _regionService.countryData;
   StateModel? get stateData => _regionService.stateData;
+  CitiesModel? get citiesData => _regionService.citiesData;
   bool? get isNotAccessd => _regionService.isNotAccessd;
+
   bool inAsyncCall = false;
 
   Future<void> handlecountry({required BuildContext context}) async {
@@ -36,4 +38,18 @@ class RegionViewModel extends BaseViewModel {
     inAsyncCall = false;
     setBusy(false);
   }
+
+    Future<void> handleCities(
+      {required BuildContext context, required countryname, required  statename}) async {
+    setBusy(true);
+    inAsyncCall = true;
+    await _regionService.allCities(countryName: countryname, stateName: statename);
+    if (isNotAccessd == false) {
+      FlushBarNotification.showError(
+          context, 'No Internet Connection Detected', 'Network Error!');
+    }
+    inAsyncCall = false;
+    setBusy(false);
+  }
+
 }
