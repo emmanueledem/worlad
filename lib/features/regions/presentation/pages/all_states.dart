@@ -6,11 +6,10 @@ import 'package:worlad/app/shared/shared_styles.dart';
 import 'package:worlad/app/shared/text_style.dart';
 import 'package:worlad/app/view_models/regions/region_view_model.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
+import 'package:worlad/core/navigators/routes.dart';
 import 'package:worlad/core/utils/string_utils.dart';
 import 'package:worlad/features/regions/data/model/regions_model.dart';
 import 'package:worlad/features/regions/presentation/pages/all_cities.dart';
-
-import '../../../../core/navigators/navigators.dart';
 
 class AllStates extends StatefulWidget {
   const AllStates({Key? key, required this.params}) : super(key: key);
@@ -48,8 +47,8 @@ class _AllStatesState extends State<AllStates> {
     List<States>? _statesList;
     if (regionProvider.stateData?.data!.states != null) {
       _statesList = (_searchText.isEmpty
-          ? regionProvider.stateData!.data!.states!
-          : regionProvider.stateData!.data!.states!
+          ? regionProvider.stateData?.data!.states!
+          : regionProvider.stateData?.data!.states!
               .where((item) => item.name!.contains(
                     RegExp(
                       StringUtil.escapeSpecial(_searchText),
@@ -98,7 +97,7 @@ class _AllStatesState extends State<AllStates> {
                   ],
                 ),
               )
-            : regionProvider.stateData?.data!.states! == null
+            : _statesList == null
                 ? const Center(
                     child: CircularProgressIndicator(
                       color: Color.fromRGBO(113, 1, 147, 1),
@@ -128,7 +127,7 @@ class _AllStatesState extends State<AllStates> {
                         ),
                       ),
                       Expanded(
-                          child: _statesList!.isNotEmpty
+                          child: _statesList.isNotEmpty
                               ? ListView(
                                   shrinkWrap: true,
                                   children: _statesList

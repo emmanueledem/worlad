@@ -35,12 +35,16 @@ class RegionServiceImplementation implements RegionService {
   @override
   Future<void> allCountries() async {
     // check local db for data
+  Logger().d('tried');
 
     // make api call
     try {
       _isNotAccessd = true;
+  Logger().d('1');
       final response = await _apiServiceRequester.getRequest(
           url: 'api/v0.1/countries/flag/images');
+  Logger().d('2');
+      Logger().d(response.data);
       _countryData = RegionModel.fromJson(response.data);
 
       // for (var item in _countryData!.data!) {
@@ -55,6 +59,7 @@ class RegionServiceImplementation implements RegionService {
       // );
       // }
       // save data to local db
+
     } catch (e) {
       Logger().d('$e');
       if (e is NoInternetException) {
@@ -82,7 +87,6 @@ class RegionServiceImplementation implements RegionService {
   @override
   Future<void> allCities(
       {required String countryName, required String stateName}) async {
-   
     try {
       _isNotAccessd = true;
       final response = await _apiServiceRequester.getRequest(

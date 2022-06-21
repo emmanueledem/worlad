@@ -46,8 +46,8 @@ class _AllCitiesState extends State<AllCities> {
     List<String>? _citiesList;
     if (regionProvider.citiesData?.data != null) {
       _citiesList = _searchText.isEmpty
-          ? regionProvider.citiesData!.data!
-          : regionProvider.citiesData!.data!
+          ? regionProvider.citiesData?.data!
+          : regionProvider.citiesData?.data!
               .where((item) => item.contains(
                     RegExp(
                       StringUtil.escapeSpecial(_searchText),
@@ -56,7 +56,7 @@ class _AllCitiesState extends State<AllCities> {
                   ))
               .toList();
     }
-
+                                                                                                                                                                                                                                                                                                       
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
@@ -96,7 +96,7 @@ class _AllCitiesState extends State<AllCities> {
                   ],
                 ),
               )
-            : regionProvider.citiesData?.data! == null
+            : _citiesList == null
                 ? const Center(
                     child: CircularProgressIndicator(
                       color: AppColor.appColour,
@@ -126,15 +126,15 @@ class _AllCitiesState extends State<AllCities> {
                         ),
                       ),
                       Expanded(
-                          child: _citiesList!.isNotEmpty
+                          child: _citiesList.isNotEmpty
                               ? ListView(
                                   shrinkWrap: true,
                                   children: _citiesList
                                       .map(
                                         (e) => Card(
                                           child: ListTile(
-                                            title: Text('Name: ' + e,
-                                                style: klistTileTitle),
+                                            title:
+                                                Text(e, style: klistTileTitle),
                                             // subtitle: const Text(
                                             //   'City Type: Capital, population: 4378, timezone: Africa/Lusaka',
                                             //   style: kListTileSubtitle,

@@ -51,19 +51,17 @@ class _AllCountriesState extends State<AllCountries> {
   @override
   Widget build(BuildContext context) {
     var regionProvider = Provider.of<RegionViewModel>(context);
-    List<Datum>? _countryList;
-    if (regionProvider.countryData?.data != null) {
-      _countryList = _searchText.isEmpty
-          ? regionProvider.countryData!.data!
-          : regionProvider.countryData!.data!
-              .where((item) => item.name!.contains(
-                    RegExp(
-                      StringUtil.escapeSpecial(_searchText),
-                      caseSensitive: false,
-                    ),
-                  ))
-              .toList();
-    }
+    final List<Datum>? _countryList;
+    _countryList = _searchText.isEmpty
+        ? regionProvider.countryData?.data!
+        : regionProvider.countryData?.data!
+            .where((item) => item.name!.contains(
+                  RegExp(
+                    StringUtil.escapeSpecial(_searchText),
+                    caseSensitive: false,
+                  ),
+                ))
+            .toList();
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -102,7 +100,7 @@ class _AllCountriesState extends State<AllCountries> {
                   ],
                 ),
               )
-            : regionProvider.countryData?.data == null
+            : _countryList == null
                 ? const Center(
                     child: CircularProgressIndicator(
                       color: AppColor.appColour,
@@ -129,7 +127,7 @@ class _AllCountriesState extends State<AllCountries> {
                         ),
                       ),
                       Expanded(
-                          child: _countryList!.isNotEmpty
+                          child: _countryList.isNotEmpty
                               ? ListView(
                                   shrinkWrap: true,
                                   children: _countryList

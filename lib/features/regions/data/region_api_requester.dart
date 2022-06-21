@@ -24,6 +24,7 @@ class RegionApiServiceRequester {
       final response = await dio.get(
         baseUrl! + url,
       );
+      
       return response;
     } else {
       throw NoInternetException();
