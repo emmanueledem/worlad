@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-import '../../features/regions/data/model/regions_model.dart';
 import '../../features/weather/data/model/local_weather_model.dart';
 
 class DatabaseHelper {

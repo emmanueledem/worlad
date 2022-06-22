@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:worlad/app/shared/colors.dart';
+import 'package:worlad/app/widgets/tab_bar_item.dart';
+import 'package:worlad/features/news/presentation/pages/bussiness_news.dart';
+import 'package:worlad/features/news/presentation/pages/entertainment_news.dart';
+import 'package:worlad/features/news/presentation/pages/health_news.dart';
+import 'package:worlad/features/news/presentation/pages/science_news.dart';
+import 'package:worlad/features/news/presentation/pages/sport_news.dart';
+import 'package:worlad/features/news/presentation/pages/technology_news.dart';
 
 class AllNews extends StatefulWidget {
   const AllNews({Key? key}) : super(key: key);
@@ -71,46 +78,15 @@ class _AllNewsState extends State<AllNews> {
         },
         body: const TabBarView(
           children: [
-            Icon(Icons.flight, size: 350),
-            Icon(Icons.directions_transit, size: 350),
-            Icon(Icons.directions_car, size: 350),
-            Icon(Icons.directions_car, size: 350),
-            Icon(Icons.directions_car, size: 350),
-            Icon(Icons.directions_car, size: 350),
+            BussinesNews(),
+            EntertainmentNews(),
+            HealthNews(),
+            ScienceNews(),
+            SportNews(),
+            TechNologyNews(),
           ],
         ),
       )),
-    );
-  }
-}
-
-class TabBarItem extends StatelessWidget {
-  const TabBarItem({Key? key, required this.heading}) : super(key: key);
-
-  final String heading;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          heading,
-          style: const TextStyle(
-            fontWeight: FontWeight.w500,
-            color: Colors.black,
-            fontFamily: 'poppins',
-          ),
-        ),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(50)),
-        border: Border.all(
-          color: AppColor.appColour,
-          width: 1,
-        ),
-      ),
     );
   }
 }

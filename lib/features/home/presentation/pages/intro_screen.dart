@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/features/home/presentation/pages/home_screen.dart';
-import 'package:worlad/features/news/presentation/pages/all_news.dart';
+import 'package:worlad/features/news/presentation/pages/news_main.dart';
 import 'package:worlad/features/regions/presentation/pages/all_countries.dart';
 import 'package:worlad/features/weather/presentation/pages/weather_main.dart';
 
