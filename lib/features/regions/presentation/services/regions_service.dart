@@ -35,16 +35,12 @@ class RegionServiceImplementation implements RegionService {
   @override
   Future<void> allCountries() async {
     // check local db for data
-  Logger().d('tried');
 
     // make api call
     try {
       _isNotAccessd = true;
-  Logger().d('1');
       final response = await _apiServiceRequester.getRequest(
           url: 'api/v0.1/countries/flag/images');
-  Logger().d('2');
-      Logger().d(response.data);
       _countryData = RegionModel.fromJson(response.data);
 
       // for (var item in _countryData!.data!) {

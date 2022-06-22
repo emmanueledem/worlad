@@ -32,15 +32,16 @@ class DatabaseHelper {
        ${WeatherFields.weatherId} $intType)
           """,
         );
-         await database.execute(
-          """
-           CREATE TABLE $tableCountries (
-       ${CountryFields.id} $idType,
-       ${CountryFields.image} $textType,
-       ${CountryFields.countryName} $textType,
-       ${CountryFields.abbreviation} $textType,
-          """,
-        );
+        
+      //   await database.execute(
+      //     """
+      //      CREATE TABLE $tableCountries (
+      //  ${CountryFields.id} $idType,
+      //  ${CountryFields.image} $textType,
+      //  ${CountryFields.countryName} $textType,
+      //  ${CountryFields.abbreviation} $textType,)
+      //     """,
+      //   );
       },
       // CREATE TABLE users (
       //         id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -55,4 +56,5 @@ class DatabaseHelper {
   factory DatabaseHelper() {
     return _databaseHelper;
   }
+  
 }
