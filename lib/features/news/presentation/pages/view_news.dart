@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:logger/logger.dart';
 import 'package:worlad/app/shared/colors.dart';
-import 'package:worlad/features/news/data/model/news_model.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ViewNews extends StatefulWidget {
   const ViewNews({Key? key, required this.params}) : super(key: key);
@@ -14,6 +15,13 @@ class ViewNews extends StatefulWidget {
 class _ViewNewsState extends State<ViewNews> {
   @override
   Widget build(BuildContext context) {
+    Uri _url = Uri.parse("${widget.params.url}");
+    Logger().d(_url);
+
+    void _launchUrl() async {
+      if (!await launchUrl(_url)) throw 'Could not launch $_url';
+    }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -58,21 +66,24 @@ class _ViewNewsState extends State<ViewNews> {
               ),
               child: Row(
                 children: [
-                  Container(
-                      decoration: BoxDecoration(
-                          color: AppColor.appColour,
-                          borderRadius: BorderRadius.circular(4)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          widget.params.source.toString(),
-                          style: const TextStyle(
-                              fontSize: 17,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
-                        ),
-                      ))
+                  GestureDetector(
+                    onTap: () => _launchUrl(),
+                    child: Container(
+                        decoration: BoxDecoration(
+                            color: AppColor.appColour,
+                            borderRadius: BorderRadius.circular(4)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Text(
+                            widget.params.source.toString(),
+                            style: const TextStyle(
+                                fontSize: 17,
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.w400,
+                                color: Colors.white),
+                          ),
+                        )),
+                  )
                 ],
               ),
             ),
@@ -156,15 +167,15 @@ class _ViewNewsState extends State<ViewNews> {
 }
 
 class ViewsNewsParam {
-  ViewsNewsParam({
-    required this.title,
-    required this.description,
-    required this.author,
-    required this.image,
-    required this.publishedAt,
-    required this.content,
-    required this.source,
-  });
+  ViewsNewsParam(
+      {required this.title,
+      required this.description,
+      required this.author,
+      required this.image,
+      required this.publishedAt,
+      required this.content,
+      required this.source,
+      required this.url});
   final String? title;
   final String? description;
   final String? author;
@@ -172,4 +183,5 @@ class ViewsNewsParam {
   final String? publishedAt;
   final String? content;
   final String? source;
+  final String? url;
 }

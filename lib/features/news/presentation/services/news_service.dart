@@ -46,7 +46,6 @@ class NewsServiceImplementation implements NewsService {
         url: 'v2/top-headlines?category=business&apiKey=',
       );
       _bussinessNewsData = NewsModel.fromJson(response.data);
-      Logger().d(response.data);
     } catch (e) {
       Logger().d('$e');
       if (e is NoInternetException) {
@@ -56,32 +55,82 @@ class NewsServiceImplementation implements NewsService {
   }
 
   @override
-  Future<void> entertainmentNews() {
-    // TODO: implement entertainmentNews
-    throw UnimplementedError();
+  Future<void> entertainmentNews() async {
+    try {
+      _isNotAccessd = true;
+      final response = await _apiServiceRequester.getRequest(
+        url: 'v2/top-headlines?category=entertainment&apiKey=',
+      );
+      _entertainmentNewsData = NewsModel.fromJson(response.data);
+    } catch (e) {
+      Logger().d('$e');
+      if (e is NoInternetException) {
+        _isNotAccessd = false;
+      }
+    }
   }
 
   @override
-  Future<void> healthNews() {
-    // TODO: implement healthNews
-    throw UnimplementedError();
+  Future<void> healthNews() async {
+    try {
+      _isNotAccessd = true;
+      final response = await _apiServiceRequester.getRequest(
+        url: 'v2/top-headlines?category=health&apiKey=',
+      );
+      _healthNewsData = NewsModel.fromJson(response.data);
+    } catch (e) {
+      Logger().d('$e');
+      if (e is NoInternetException) {
+        _isNotAccessd = false;
+      }
+    }
   }
 
   @override
-  Future<void> scienceNews() {
-    // TODO: implement scienceNews
-    throw UnimplementedError();
+  Future<void> scienceNews() async {
+    try {
+      _isNotAccessd = true;
+      final response = await _apiServiceRequester.getRequest(
+        url: 'v2/top-headlines?category=science&apiKey=',
+      );
+      _scienceNewsData = NewsModel.fromJson(response.data);
+    } catch (e) {
+      Logger().d('$e');
+      if (e is NoInternetException) {
+        _isNotAccessd = false;
+      }
+    }
   }
 
   @override
-  Future<void> sportNews() {
-    // TODO: implement sportNews
-    throw UnimplementedError();
+  Future<void> sportNews() async {
+    try {
+      _isNotAccessd = true;
+      final response = await _apiServiceRequester.getRequest(
+        url: 'v2/top-headlines?category=sports&apiKey=',
+      );
+      _sportNewsData = NewsModel.fromJson(response.data);
+    } catch (e) {
+      Logger().d('$e');
+      if (e is NoInternetException) {
+        _isNotAccessd = false;
+      }
+    }
   }
 
   @override
-  Future<void> technologyNews() {
-    // TODO: implement technologyNews
-    throw UnimplementedError();
+  Future<void> technologyNews() async {
+    try {
+      _isNotAccessd = true;
+      final response = await _apiServiceRequester.getRequest(
+        url: 'v2/top-headlines?category=technology&apiKey=',
+      );
+      _technologyNewsData = NewsModel.fromJson(response.data);
+    } catch (e) {
+      Logger().d('$e');
+      if (e is NoInternetException) {
+        _isNotAccessd = false;
+      }
+    }
   }
 }

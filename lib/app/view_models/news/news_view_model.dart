@@ -21,13 +21,67 @@ class NewsVieModel extends BaseViewModel {
 
   bool? get isNotAccessd => _newsService.isNotAccessd;
 
-    bool inAsyncCall = false;
-
+  bool inAsyncCall = false;
 
   Future<void> handleBussinessNews({required BuildContext context}) async {
     setBusy(true);
     await _newsService.bussinessNews();
-     if (isNotAccessd == false) {
+    if (isNotAccessd == false) {
+      FlushBarNotification.showError(
+          context, 'No Internet Connection Detected', 'Network Error!');
+    }
+    inAsyncCall = false;
+    setBusy(false);
+  }
+
+  Future<void> handleentertainmentNews({required BuildContext context}) async {
+    setBusy(true);
+    await _newsService.entertainmentNews();
+    if (isNotAccessd == false) {
+      FlushBarNotification.showError(
+          context, 'No Internet Connection Detected', 'Network Error!');
+    }
+    inAsyncCall = false;
+    setBusy(false);
+  }
+
+  Future<void> handlehealthNews({required BuildContext context}) async {
+    setBusy(true);
+    await _newsService.healthNews();
+    if (isNotAccessd == false) {
+      FlushBarNotification.showError(
+          context, 'No Internet Connection Detected', 'Network Error!');
+    }
+    inAsyncCall = false;
+    setBusy(false);
+  }
+
+  Future<void> handlescienceNews({required BuildContext context}) async {
+    setBusy(true);
+    await _newsService.scienceNews();
+    if (isNotAccessd == false) {
+      FlushBarNotification.showError(
+          context, 'No Internet Connection Detected', 'Network Error!');
+    }
+    inAsyncCall = false;
+    setBusy(false);
+  }
+
+  Future<void> handlesportNews({required BuildContext context}) async {
+    setBusy(true);
+    await _newsService.sportNews();
+    if (isNotAccessd == false) {
+      FlushBarNotification.showError(
+          context, 'No Internet Connection Detected', 'Network Error!');
+    }
+    inAsyncCall = false;
+    setBusy(false);
+  }
+
+  Future<void> handletechnologyNews({required BuildContext context}) async {
+    setBusy(true);
+    await _newsService.technologyNews();
+    if (isNotAccessd == false) {
       FlushBarNotification.showError(
           context, 'No Internet Connection Detected', 'Network Error!');
     }

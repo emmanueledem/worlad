@@ -1,10 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:provider/provider.dart';
 import 'package:worlad/app/shared/colors.dart';
 import 'package:worlad/app/view_models/news/news_view_model.dart';
 import 'package:worlad/app/widgets/busy_button.dart';
+import 'package:worlad/app/widgets/news_body.dart';
 import 'package:worlad/core/navigators/routes.dart';
 import 'package:worlad/core/utils/greeting_utils.dart';
 import 'package:worlad/core/utils/string_utils.dart';
@@ -21,6 +21,8 @@ class BussinesNews extends StatefulWidget {
 TextEditingController _searchController = TextEditingController();
 
 class _BussinesNewsState extends State<BussinesNews> {
+
+
   String _searchText = '';
   @override
   void initState() {
@@ -44,7 +46,7 @@ class _BussinesNewsState extends State<BussinesNews> {
   @override
   Widget build(BuildContext context) {
     var newsProvider = Provider.of<NewsVieModel>(context);
-
+    
     final List<Article>? _newsList;
     _newsList = _searchText.isEmpty
         ? newsProvider.bussinesNewsData?.articles
@@ -99,6 +101,7 @@ class _BussinesNewsState extends State<BussinesNews> {
                                     Navigator.pushNamed(
                                         context, Routes.viewNewsPage,
                                         arguments: ViewsNewsParam(
+                                            url: e.url,
                                             title: e.title,
                                             description: e.description,
                                             author: e.author,
@@ -129,100 +132,3 @@ class _BussinesNewsState extends State<BussinesNews> {
   }
 }
 
-class NewsBody extends StatelessWidget {
-  NewsBody(
-      {Key? key,
-      required this.title,
-      required this.description,
-      required this.urlTOImage,
-      required this.sourceName,
-      this.publishedAt})
-      : super(key: key);
-  String? title;
-  String? description;
-  String? urlTOImage;
-  String? sourceName;
-  String? publishedAt;
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white60,
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(
-            color: Colors.grey.shade300, width: 1.3, style: BorderStyle.solid),
-      ),
-      child: Padding(
-        padding:
-            const EdgeInsets.only(bottom: 17, left: 17, right: 17, top: 17),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title.toString(),
-                        style: const TextStyle(
-                            fontSize: 17,
-                            fontStyle: FontStyle.normal,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black),
-                      ),
-                      const Gap(10),
-                      Text(description.toString(),
-                          style: const TextStyle(
-                              fontSize: 14,
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.black)),
-                    ],
-                  ),
-                ),
-                ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  child: CachedNetworkImage(
-                    fit: BoxFit.cover,
-                    width: 143,
-                    height: 96,
-                    imageUrl: urlTOImage.toString(),
-                    progressIndicatorBuilder:
-                        (context, url, downloadProgress) => Center(
-                            child: CircularProgressIndicator(
-                                value: downloadProgress.progress)),
-                    errorWidget: (context, url, error) =>
-                        const Icon(Icons.error),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(sourceName.toString(),
-                    style: const TextStyle(
-                        fontSize: 12,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.appColour)),
-                const SizedBox(
-                  width: 19.36,
-                ),
-                Text(publishedAt.toString(),
-                    style: const TextStyle(
-                        fontSize: 12,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w400,
-                        color: AppColor.appColour)),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
