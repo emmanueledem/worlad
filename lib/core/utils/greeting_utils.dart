@@ -10,7 +10,7 @@ class TimeFmt {
   static String getCurrentDate() {
     final formatedDate = DateFormat.yMMMMd('en_US').format(DateTime.now());
     final formatedTime = DateFormat("hh:mm:ss a").format(DateTime.now());
-    var dateTime = formatedDate + ' ' + formatedTime;
+      var dateTime = formatedDate + ' ' + formatedTime;
     return dateTime;
   }
 
@@ -24,4 +24,10 @@ class TimeFmt {
     }
     return 'Evening';
   }
+
+  static String datePublished(DateTime dateTime) {
+    final formatter = DateFormat('yMMMMd');
+    return formatter.format(dateTime);
+  }
+
 }

@@ -10,7 +10,7 @@ class NewsApiServiceRequester {
   final dio = Dio();
   final NetworkInfoImpl _connectivityInfo = NetworkInfoImpl();
   String? baseUrl = dotenv.env['NEWS_BASE_URL'];
- 
+  String? apiKey = dotenv.env['NEWS_API_KEY'];
 
   // get request
   Future<Response> getRequest({required String url}) async {
@@ -23,7 +23,7 @@ class NewsApiServiceRequester {
 
       try {
         final response = await dio.get(
-            baseUrl! + url,
+            baseUrl!+url+apiKey!,
         );
         return response;
       } catch (e) {

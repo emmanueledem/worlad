@@ -25,9 +25,12 @@ class Routers {
         );
 
       case Routes.viewNewsPage:
+      final args =  settings.arguments as ViewsNewsParam;
         return _getPageRoute(
           routeName: settings.name,
-          viewToShow: const ViewNews(),
+          viewToShow:  ViewNews(
+            params: args,
+          ),
         );
 
     

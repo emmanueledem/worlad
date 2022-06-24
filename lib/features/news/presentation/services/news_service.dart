@@ -38,8 +38,7 @@ class NewsServiceImplementation implements NewsService {
   bool? _isNotAccessd;
   bool? get isNotAccessd => _isNotAccessd;
 
-
-    @override
+  @override
   Future<void> bussinessNews() async {
     try {
       _isNotAccessd = true;
@@ -47,6 +46,7 @@ class NewsServiceImplementation implements NewsService {
         url: 'v2/top-headlines?category=business&apiKey=',
       );
       _bussinessNewsData = NewsModel.fromJson(response.data);
+      Logger().d(response.data);
     } catch (e) {
       Logger().d('$e');
       if (e is NoInternetException) {
@@ -84,6 +84,4 @@ class NewsServiceImplementation implements NewsService {
     // TODO: implement technologyNews
     throw UnimplementedError();
   }
-
-
 }
